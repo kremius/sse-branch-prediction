@@ -7,33 +7,34 @@ const int GASES_NUM = 4;
 struct alignas(16) Cell
 {
     int32_t gases[GASES_NUM];
+    // West, north, south, east
     int32_t flows[4];
 };
 
-enum class Attribute : int8_t
-{
-    // 0 borders
-    NO_BORDERS = 0,
-    // 1 borders
-    NORTH,
-    SOUTH,
-    WEST,
-    EAST,
-    // 2 borders
-    NORTH_SOUTH,
-    WEST_EAST,
-    NORTH_WEST,
-    NORTH_EAST,
-    SOUTH_WEST,
-    SOUTH_EAST,
-    // 3 borders
-    EXCEPT_NORTH,
-    EXCEPT_SOUTH,
-    EXCEPT_WEST,
-    EXCEPT_EAST,
-    // 4 borders
-    FULL_BORDERS
-};
+const int REVERT_DIRS_INDEXES[4] = { 3, 2, 1, 0 };
+
+using Attribute = int8_t;
+// 0 borders
+const Attribute NO_BORDERS = 0b0000;
+// 4 borders
+const Attribute FULL_BORDERS = 0b1111;
+// 1 borders
+const Attribute NORTH = 0b0001;
+const Attribute SOUTH = 0b0010;
+const Attribute WEST = 0b0100;
+const Attribute EAST = 0b1000;
+// 2 borders
+const Attribute NORTH_SOUTH = NORTH | SOUTH;
+const Attribute WEST_EAST = WEST | EAST;
+const Attribute NORTH_WEST = NORTH | WEST;
+const Attribute NORTH_EAST = NORTH | EAST;
+const Attribute SOUTH_WEST = SOUTH | WEST;
+const Attribute SOUTH_EAST = SOUTH | EAST;
+// 3 borders
+const Attribute EXCEPT_NORTH = ~NORTH & FULL_BORDERS;
+const Attribute EXCEPT_SOUTH = ~SOUTH & FULL_BORDERS;
+const Attribute EXCEPT_WEST = ~WEST & FULL_BORDERS;
+const Attribute EXCEPT_EAST = ~EAST & FULL_BORDERS;
 
 struct CellsGroup
 {
@@ -43,12 +44,6 @@ struct CellsGroup
         // Default malloc on linux return 16 bytes aligned memory
         : cells(new Cell[32 * 32]),
           attributes(new Attribute[32 * 32])
-    {
-        // Nothing
-    }
-    CellsGroup(CellsGroup&& other)
-        : cells(std::move(other.cells)),
-          attributes(std::move(other.attributes))
     {
         // Nothing
     }

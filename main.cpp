@@ -47,6 +47,8 @@ void PrintFlows(const std::vector<CellsGroup>& groups)
     }
 }
 
+void Process(CellsGroup* group);
+
 int main(int argc, char* argv[])
 {
     std::cout << "Creating groups" << std::endl;
@@ -58,6 +60,13 @@ int main(int argc, char* argv[])
 
     FillGroups(&groups);
 
+    for (int i = 0; i < 1024; ++i)
+    {
+        for (CellsGroup& group : groups)
+        {
+            Process(&group);
+        }
+    }
     PrintFlows(groups);
 
     return 0;
