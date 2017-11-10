@@ -1,10 +1,30 @@
 #include "atmos.h"
 
+#include <array>
+
 const int32_t YES = 0xFFFFFFFF;
 const int32_t NO = 0x00000000;
 
-const int32_t MASKS_NORTH[16]
-    = {};
+constexpr std::array<int32_t, 16> InitMasks(int8_t direction)
+{
+    std::array<int32_t, 16> retval{};
+
+    for (int i = 0; i < 16; ++i)
+    {
+        retval[i] = YES;
+        if (i & direction)
+        {
+            retval[i] = NO;
+	    }
+    }
+
+    return retval;
+}
+
+constexpr std::array<int32_t, 16> MASKS_NORTH = InitMasks(NORTH);
+constexpr std::array<int32_t, 16> MASKS_SOUTH = InitMasks(SOUTH);
+constexpr std::array<int32_t, 16> MASKS_WEST = InitMasks(WEST);
+constexpr std::array<int32_t, 16> MASKS_EAST = InitMasks(EAST);
 
 inline void __attribute__((always_inline))
 ProcessFiveCells(int8_t attribute, Cell* near_cells[5])
