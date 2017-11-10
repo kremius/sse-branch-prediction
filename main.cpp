@@ -60,7 +60,9 @@ int main(int argc, char* argv[])
 
     FillGroups(&groups);
 
-    for (int i = 0; i < 1024; ++i)
+    std::cout << "Processing start" << std::endl;
+
+    for (int i = 0; i < 1024 * 8; ++i)
     {
         for (CellsGroup& group : groups)
         {
