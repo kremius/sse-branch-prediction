@@ -41,7 +41,7 @@ struct CellsGroup
     static const int SIZE = 32;
 
     CellsGroup()
-        // Default malloc on linux return 16 bytes aligned memory
+        // Default malloc on linux returns 16 bytes aligned memory
         : cells(new Cell[32 * 32]),
           attributes(new Attribute[32 * 32])
     {
