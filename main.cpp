@@ -62,11 +62,17 @@ int main(int argc, char* argv[])
 
     std::cout << "Processing start" << std::endl;
 
-    for (int i = 0; i < 1024 * 8; ++i)
+    const int INTERNAL_LOOP_COUNT = 64;
+    const int EXTERNAL_LOOP_COUNT = 256;
+
+    for (int i = 0; i < EXTERNAL_LOOP_COUNT; ++i)
     {
         for (CellsGroup& group : groups)
         {
-            Process(&group);
+            for (int j = 0; j < INTERNAL_LOOP_COUNT; ++j)
+            {
+                Process(&group);
+            }
         }
     }
     PrintFlows(groups);
