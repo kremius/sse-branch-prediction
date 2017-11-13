@@ -29,7 +29,7 @@ constexpr std::array<int32_t, 16> MASKS_EAST = InitMasks(EAST);
 inline void __attribute__((always_inline))
 ProcessFiveCells(int8_t attribute, Cell* near_cells[5])
 {
-    int32_t near_size = __builtin_popcount(attribute) + 1;
+    int32_t near_size = (4 - __builtin_popcount(attribute)) + 1;
     int32_t gases_sums[GASES_NUM] = {0, 0, 0, 0};
 
     // West, north, south, east - dirs
