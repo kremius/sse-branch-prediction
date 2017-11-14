@@ -24,6 +24,7 @@ ProcessFiveCells(Cell* near_cells[5])
 
     int32_t gases_average[GASES_NUM];
     int32_t gases_remains[GASES_NUM];
+
     switch (near_size)
     {
     case 1:
@@ -61,6 +62,8 @@ ProcessFiveCells(Cell* near_cells[5])
             gases_remains[i] = gases_sums[i] % 5;
         }
         break;
+    default:
+        __builtin_unreachable();
     }
 
     Cell& center = *near_cells[4];
