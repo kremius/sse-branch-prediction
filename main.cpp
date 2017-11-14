@@ -62,8 +62,8 @@ int main(int argc, char* argv[])
 
     std::cout << "Processing start" << std::endl;
 
-    const int INTERNAL_LOOP_COUNT = 64;
-    const int EXTERNAL_LOOP_COUNT = 256;
+    const int INTERNAL_LOOP_COUNT = 256;
+    const int EXTERNAL_LOOP_COUNT = 64;
 
     for (int i = 0; i < EXTERNAL_LOOP_COUNT; ++i)
     {
