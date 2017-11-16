@@ -1,26 +1,11 @@
 #include "atmos.h"
 
+const int INDEXES_TO_DIRS[5] = {WEST, NORTH, SOUTH, EAST, NO_BORDERS};
+
 template<int8_t attribute>
 inline void __attribute__((always_inline))
 ProcessFiveCells(Cell* near_cells[5])
 {
-    if (attribute & WEST)
-    {
-        near_cells[0] = nullptr;
-    }
-    if (attribute & NORTH)
-    {
-        near_cells[1] = nullptr;
-    }
-    if (attribute & SOUTH)
-    {
-        near_cells[2] = nullptr;
-    }
-    if (attribute & EAST)
-    {
-        near_cells[3] = nullptr;
-    }
-
     int32_t near_size = (4 - __builtin_popcount(attribute)) + 1;
     int32_t gases_sums[GASES_NUM];
     for (int i = 0; i < GASES_NUM; ++i)
@@ -30,8 +15,9 @@ ProcessFiveCells(Cell* near_cells[5])
 
     for (int dir = 0; dir < 5; ++dir)
     {
-        if (Cell* nearby = near_cells[dir])
+        if (!(attribute & INDEXES_TO_DIRS[dir]))
         {
+            Cell* nearby = near_cells[dir];
             for (int i = 0; i < GASES_NUM; ++i)
             {
                 gases_sums[i] += nearby->gases[i];
@@ -51,7 +37,7 @@ ProcessFiveCells(Cell* near_cells[5])
 
     for (int dir = 0; dir < 4; ++dir)
     {
-        if (near_cells[dir])
+        if (!(attribute & INDEXES_TO_DIRS[dir]))
         {
             Cell& nearby = *near_cells[dir];
             for (int i = 0; i < GASES_NUM; ++i)
@@ -133,6 +119,8 @@ void Process(CellsGroup* group)
         case 15:
             ProcessFiveCells<15>(near_cells);
             break;
+        default:
+            __builtin_unreachable();
         }
     }
 }
