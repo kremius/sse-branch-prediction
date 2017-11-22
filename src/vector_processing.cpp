@@ -52,6 +52,9 @@ ProcessFiveCells(Cell* near_cells[5])
         }
     }
 
+    // TODO: fast modulo with fast division without need for
+    // extra multiplication
+
     __m128i gases_average;
     __m128i gases_remains;
     switch (near_size)
@@ -76,12 +79,7 @@ ProcessFiveCells(Cell* near_cells[5])
     }
 
     {
-        // TODO: there should be better way
-        __m128i temp = gases_average;
-        for (int i = 0; i < near_size - 1; ++i)
-        {
-            temp = _mm_add_epi32(temp, gases_average);
-        }
+        __m128i temp = _mm_mullo_epi32(_mm_set1_epi32(near_size), gases_average);
         gases_remains = _mm_sub_epi32(gases_sums, temp);
     }
 
