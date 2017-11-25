@@ -1,7 +1,7 @@
 compiler = g++-7
 cpp_flags = -march=native -O3 -std=c++17
 
-variants = serial serial_branchless serial_branch_by_code serial_div_switch vector vector_branchless
+variants = serial serial_branchless serial_branch_by_code serial_div_switch vector vector_branchless vector_branch_by_code
 
 all: $(variants)
 
